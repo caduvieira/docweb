@@ -1,9 +1,8 @@
 package working.docweb
 
-class TipoDocumento {
+class Especie {
 
     String nome
-
     static constraints = {
         nome blank: false, unique: true
     }

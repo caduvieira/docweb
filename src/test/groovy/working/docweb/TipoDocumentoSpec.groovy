@@ -9,14 +9,28 @@ import spock.lang.Specification
 @TestFor(TipoDocumento)
 class TipoDocumentoSpec extends Specification {
 
+    def tipoDocumento
+
     def setup() {
+        tipoDocumento = new TipoDocumento()
     }
 
     def cleanup() {
     }
 
-    void "test something"() {
-        expect:"fix me"
-            true == false
+    void "Nome do Tipo de Documento não pode ser vazio"() {
+        when: "quando o nome do tipo do documento vazio"
+        tipoDocumento.nome = ''
+        tipoDocumento.validate()
+
+        then: "então o documento não é considerado válido"
+        tipoDocumento.errors?.hasFieldErrors("nome")
+
+        when: "quando o nome do tipo de documento não for vazio"
+        tipoDocumento.nome = "Nome válido"
+        tipoDocumento.validate()
+
+        then: "então o tipo de documento é considerado válido"
+        !tipoDocumento.errors?.hasFieldErrors("nome")
     }
 }

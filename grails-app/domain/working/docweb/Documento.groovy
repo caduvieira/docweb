@@ -59,6 +59,11 @@ class Documento {
     TipoDocumento tipo
 
     /***
+     * Indica a espécie documental, ou seja, a configuração da informação no documento de acordo com a disposição e a natureza das informações nele contidas
+     */
+    Especie especie
+
+    /***
      * Idioma(s) em que é expresso o conteúdo do documento
      */
     String idioma
@@ -84,12 +89,32 @@ class Documento {
      */
     String localizacao
 
+    /***
+     * Indicação do prazo estabelecido em tabela de temporalidade para o cumprimento da destinação
+     * O prazo é definido em dias e deverá ser calculado automaticamente de acordo com a Classe
+     */
+    Long prazoGuarda
+
+    /***
+     * Indicação da próxima ação de destinação (transferência, eliminação ou recolhimento) prevista para o documento,
+     * em cumprimento à tabela de temporalidade
+     */
+    String destinacaoPrevista
+
+    /***
+     * Indicação da quantidade de folhas/páginas de um documento
+     */
+    Integer quantidadeFolhas
+
+
     static constraints = {
         protocolo nullable: true, validator: { val, doc -> Documento.validarProtocolo(val, doc) }
         titulo blank: false, size: 3..100
         descricao nullable: true, size: 0..255
-        tipo nullable: true
         idioma nullable: true
+        prazoGuarda nullable: true
+        destinacaoPrevista nullable: true
+        quantidadeFolhas nullable: true
     }
 
     /***

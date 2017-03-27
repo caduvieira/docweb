@@ -3,27 +3,13 @@ package working.docweb
 import grails.test.mixin.*
 import spock.lang.*
 
-@TestFor(DocumentoController)
-@Mock(Documento)
-class DocumentoControllerSpec extends Specification {
+@TestFor(EspecieController)
+@Mock(Especie)
+class EspecieControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
-
-        params["numero"] = 'Carta: AB/11.000/2008'
-        params["protocolo"] = '0000000.00000000/0000-00'
-        params["status"] = Documento.Status.RASCUNHO
-        params["nivelAcesso"] = Documento.NivelAcesso.PUBLICO
-        params["titulo"] = 'Título do Documento'
-        params["meio"] = Documento.TipoMeio.DIGITAL
-        params["genero"] = Documento.Genero.TEXTUAL
-        params["descricao"] = 'Descrição do documento'
-        params["tipo"] = new TipoDocumento()
-        params["especie"] = new Especie()
-        params["idioma"] = 'pt-BR'
-        params["possuiAnexo"] = false
-        params["dataProducao"] = new Date()
-        params["localizacao"] = 'Depósito 201, estante 8, prateleira 2;'
+        params["nome"] = 'Nome da Espécie Documental'
     }
 
     void "Test the index action returns the correct model"() {
@@ -32,8 +18,8 @@ class DocumentoControllerSpec extends Specification {
             controller.index()
 
         then:"The model is correct"
-            !model.documentoList
-            model.documentoCount == 0
+            !model.especieList
+            model.especieCount == 0
     }
 
     void "Test the create action returns the correct model"() {
@@ -41,7 +27,7 @@ class DocumentoControllerSpec extends Specification {
             controller.create()
 
         then:"The model is correctly created"
-            model.documento!= null
+            model.especie!= null
     }
 
     void "Test the save action correctly persists an instance"() {
@@ -49,25 +35,25 @@ class DocumentoControllerSpec extends Specification {
         when:"The save action is executed with an invalid instance"
             request.contentType = FORM_CONTENT_TYPE
             request.method = 'POST'
-            def documento = new Documento()
-            documento.validate()
-            controller.save(documento)
+            def especie = new Especie()
+            especie.validate()
+            controller.save(especie)
 
         then:"The create view is rendered again with the correct model"
-            model.documento!= null
+            model.especie!= null
             view == 'create'
 
         when:"The save action is executed with a valid instance"
             response.reset()
             populateValidParams(params)
-            documento = new Documento(params)
+            especie = new Especie(params)
 
-            controller.save(documento)
+            controller.save(especie)
 
         then:"A redirect is issued to the show action"
-            response.redirectedUrl == '/documento/show/1'
+            response.redirectedUrl == '/especie/show/1'
             controller.flash.message != null
-            Documento.count() == 1
+            Especie.count() == 1
     }
 
     void "Test that the show action returns the correct model"() {
@@ -79,11 +65,11 @@ class DocumentoControllerSpec extends Specification {
 
         when:"A domain instance is passed to the show action"
             populateValidParams(params)
-            def documento = new Documento(params)
-            controller.show(documento)
+            def especie = new Especie(params)
+            controller.show(especie)
 
         then:"A model is populated containing the domain instance"
-            model.documento == documento
+            model.especie == especie
     }
 
     void "Test that the edit action returns the correct model"() {
@@ -95,11 +81,11 @@ class DocumentoControllerSpec extends Specification {
 
         when:"A domain instance is passed to the edit action"
             populateValidParams(params)
-            def documento = new Documento(params)
-            controller.edit(documento)
+            def especie = new Especie(params)
+            controller.edit(especie)
 
         then:"A model is populated containing the domain instance"
-            model.documento == documento
+            model.especie == especie
     }
 
     void "Test the update action performs an update on a valid domain instance"() {
@@ -109,28 +95,28 @@ class DocumentoControllerSpec extends Specification {
             controller.update(null)
 
         then:"A 404 error is returned"
-            response.redirectedUrl == '/documento/index'
+            response.redirectedUrl == '/especie/index'
             flash.message != null
 
         when:"An invalid domain instance is passed to the update action"
             response.reset()
-            def documento = new Documento()
-            documento.validate()
-            controller.update(documento)
+            def especie = new Especie()
+            especie.validate()
+            controller.update(especie)
 
         then:"The edit view is rendered again with the invalid instance"
             view == 'edit'
-            model.documento == documento
+            model.especie == especie
 
         when:"A valid domain instance is passed to the update action"
             response.reset()
             populateValidParams(params)
-            documento = new Documento(params).save(flush: true, failOnError: true)
-            controller.update(documento)
+            especie = new Especie(params).save(flush: true)
+            controller.update(especie)
 
         then:"A redirect is issued to the show action"
-            documento != null
-            response.redirectedUrl == "/documento/show/$documento.id"
+            especie != null
+            response.redirectedUrl == "/especie/show/$especie.id"
             flash.message != null
     }
 
@@ -141,23 +127,23 @@ class DocumentoControllerSpec extends Specification {
             controller.delete(null)
 
         then:"A 404 is returned"
-            response.redirectedUrl == '/documento/index'
+            response.redirectedUrl == '/especie/index'
             flash.message != null
 
         when:"A domain instance is created"
             response.reset()
             populateValidParams(params)
-            def documento = new Documento(params).save(flush: true)
+            def especie = new Especie(params).save(flush: true)
 
         then:"It exists"
-            Documento.count() == 1
+            Especie.count() == 1
 
         when:"The domain instance is passed to the delete action"
-            controller.delete(documento)
+            controller.delete(especie)
 
         then:"The instance is deleted"
-            Documento.count() == 0
-            response.redirectedUrl == '/documento/index'
+            Especie.count() == 0
+            response.redirectedUrl == '/especie/index'
             flash.message != null
     }
 }
