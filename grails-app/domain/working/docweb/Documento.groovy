@@ -106,6 +106,13 @@ class Documento {
      */
     Integer quantidadeFolhas
 
+    /***
+     * Identificador dos componentes digitais que integram o documento
+     */
+    Set<ComponenteDigital> componentesDigitais
+
+    static hasMany = [componentesDigitais: ComponenteDigital]
+
 
     static constraints = {
         protocolo nullable: true, validator: { val, doc -> Documento.validarProtocolo(val, doc) }

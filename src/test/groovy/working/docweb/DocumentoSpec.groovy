@@ -12,7 +12,7 @@ import javax.swing.text.Document
 @TestFor(Documento)
 class DocumentoSpec extends Specification {
 
-    def doc
+    Documento doc
 
     def setup() {
         doc = new Documento()
@@ -29,7 +29,7 @@ class DocumentoSpec extends Specification {
         doc.protocolo = null
         doc.validate()
 
-        then: "então o documento não é considerado válido"
+        then: "então o documento é considerado válido"
         !doc.errors?.hasFieldErrors("protocolo")
 
 
